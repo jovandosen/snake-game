@@ -16,9 +16,15 @@ var topPos = 0;
 
 // Define snake intervals
 var rightInterval;
+var leftInterval;
 
 // Define main game timer
 var mainTimerInterval;
+
+var rightArrowClicked = false;
+var leftArrowClicked = false;
+var upArrowClicked = false;
+var downArrowClicked = false;
 
 /* Check which key is pressed */
 function checkKeyPressed(e) {
@@ -38,11 +44,39 @@ function checkKeyPressed(e) {
 
 /* Move snake to the left */
 function moveSnakeLeft() {
-    console.log('left');
+    if(leftArrowClicked) {
+        return;
+    }
+
+    clearAllIntervals();
+
+    rightArrowClicked = false;
+
+    leftArrowClicked = true;
+
+    leftInterval = setInterval(function() {
+        if(leftPos == 0) {
+            clearInterval(leftInterval);
+            gameOver();
+            return;
+        }
+        leftPos -= 20;
+        snake.style.left = leftPos + "px";
+    }, 100);
 }
 
 /* Move snake to the right */
 function moveSnakeRight() {
+    if(rightArrowClicked) {
+        return;
+    }
+
+    clearAllIntervals();
+
+    leftArrowClicked = false;
+
+    rightArrowClicked = true;
+
     rightInterval = setInterval(function() {
         if(leftPos == 980) {
             clearInterval(rightInterval);
@@ -117,3 +151,8 @@ function gameMainTimer(totalSeconds) {
 }
 
 gameMainTimer(300);
+
+function clearAllIntervals() {
+    clearInterval(leftInterval);
+    clearInterval(rightInterval);
+}
