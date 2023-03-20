@@ -1,0 +1,62 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#snake-game-main-container, #snake-game-score-container {
+    width: 1000px;
+    border: 1px solid black;
+}
+
+#snake-game-main-container {
+    height: 800px;
+    margin: 20px auto;
+    position: relative;
+}
+
+#snake-game-score-container {
+    height: 100px;
+    margin: 10px auto;
+}
+
+.snake-skin {
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#game-over-container, #snake-game-score-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#game-over-container {
+    position: absolute;
+    width: 200px;
+    height: 100px;
+    border: 1px solid black;
+    top: calc(100% / 2 - 100px);
+    left: calc(100% / 2 - 100px);
+}
+
+#game-over-container a {
+    text-decoration: none;
+}
+
+#game-over-container a:hover {
+    text-decoration: underline;
+}
+
+#game-main-timer {
+    font-size: 30px;
+}
+
+#game-total-score {
+    font-size: 20px;
+}
