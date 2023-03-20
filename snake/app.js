@@ -17,6 +17,8 @@ var topPos = 0;
 // Define snake intervals
 var rightInterval;
 var leftInterval;
+var downInterval;
+var upInterval;
 
 // Define main game timer
 var mainTimerInterval;
@@ -50,9 +52,7 @@ function moveSnakeLeft() {
 
     clearAllIntervals();
 
-    rightArrowClicked = false;
-
-    leftArrowClicked = true;
+    triggerArrowClick('left');
 
     leftInterval = setInterval(function() {
         if(leftPos == 0) {
@@ -73,9 +73,7 @@ function moveSnakeRight() {
 
     clearAllIntervals();
 
-    leftArrowClicked = false;
-
-    rightArrowClicked = true;
+    triggerArrowClick('right');
 
     rightInterval = setInterval(function() {
         if(leftPos == 980) {
@@ -90,12 +88,44 @@ function moveSnakeRight() {
 
 /* Move snake up */
 function moveSnakeUp() {
-    console.log('up');
+    if(upArrowClicked) {
+        return;
+    }
+
+    clearAllIntervals();
+
+    triggerArrowClick('up');
+
+    upInterval = setInterval(function() {
+        if(topPos == 0) {
+            clearInterval(upInterval);
+            gameOver();
+            return;
+        }
+        topPos -= 20;
+        snake.style.top = topPos + "px";
+    }, 100);
 }
 
 /* Move snake down */
 function moveSnakeDown() {
-    console.log('down');
+    if(downArrowClicked) {
+        return;
+    }
+
+    clearAllIntervals();
+
+    triggerArrowClick('down');
+
+    downInterval = setInterval(function() {
+        if(topPos == 780) {
+            clearInterval(downInterval);
+            gameOver();
+            return;
+        }
+        topPos += 20;
+        snake.style.top = topPos + "px";
+    }, 100);
 }
 
 /* Call checkKeyPressed function on keydown */
@@ -155,4 +185,28 @@ gameMainTimer(300);
 function clearAllIntervals() {
     clearInterval(leftInterval);
     clearInterval(rightInterval);
+    clearInterval(downInterval);
+    clearInterval(upInterval);
+}
+
+function triggerArrowClick(position) {
+    leftArrowClicked = false;
+    rightArrowClicked = false;
+    downArrowClicked = false;
+    upArrowClicked = false;
+
+    switch(position) {
+        case 'left':
+            leftArrowClicked = true;
+            break;
+        case 'right':
+            rightArrowClicked = true;
+            break;
+        case 'up':
+            upArrowClicked = true;
+            break;
+        case 'down':
+            downArrowClicked = true;
+            break;
+    }
 }
