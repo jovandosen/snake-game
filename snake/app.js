@@ -8,7 +8,12 @@ snake.setAttribute("id", "snake");
 
 snake.classList.add("snake-skin");
 
+snake.dataset.topval = 0;
+snake.dataset.leftval = 0;
+
 snakeContainer.appendChild(snake);
+
+var snakeFood;
 
 // Define starting position for snake
 var leftPos = 0;
@@ -30,6 +35,9 @@ var downArrowClicked = false;
 
 /* Check which key is pressed */
 function checkKeyPressed(e) {
+    if(e.keyCode === 32) {
+        clearAllIntervals();
+    }
     if(e.keyCode === 37) {
         moveSnakeLeft();
     }
@@ -61,6 +69,7 @@ function moveSnakeLeft() {
             return;
         }
         leftPos -= 20;
+        updateSnakeLeftVal(leftPos);
         snake.style.left = leftPos + "px";
     }, 100);
 }
@@ -82,6 +91,7 @@ function moveSnakeRight() {
             return;
         }
         leftPos += 20;
+        updateSnakeLeftVal(leftPos);
         snake.style.left = leftPos + "px";
     }, 100);
 }
@@ -103,6 +113,7 @@ function moveSnakeUp() {
             return;
         }
         topPos -= 20;
+        updateSnakeTopVal(topPos);
         snake.style.top = topPos + "px";
     }, 100);
 }
@@ -124,6 +135,7 @@ function moveSnakeDown() {
             return;
         }
         topPos += 20;
+        updateSnakeTopVal(topPos);
         snake.style.top = topPos + "px";
     }, 100);
 }
@@ -210,3 +222,35 @@ function triggerArrowClick(position) {
             break;
     }
 }
+
+function updateSnakeTopVal(val) {
+    snake.dataset.topval = val;
+}
+
+function updateSnakeLeftVal(val) {
+    snake.dataset.leftval = val;
+}
+
+/* create a function to get a random number between two numbers */
+function numberInRange(max, min) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function createFood() {
+    snakeFood = document.createElement("div");
+
+    snakeFood.classList.add("food");
+
+    var foodTopPos = numberInRange(780, 0);
+    var foodLeftPost = numberInRange(980, 0);
+
+    snakeFood.style.top = foodTopPos + "px";
+    snakeFood.style.left = foodLeftPost + "px";
+
+    snakeFood.dataset.topval = foodTopPos;
+    snakeFood.dataset.leftval = foodLeftPost;
+
+    snakeContainer.appendChild(snakeFood);
+}
+
+createFood();

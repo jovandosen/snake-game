@@ -60,3 +60,10 @@
 #game-total-score {
     font-size: 20px;
 }
+
+.food {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: blue;
+}
