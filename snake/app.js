@@ -15,6 +15,9 @@ snakeContainer.appendChild(snake);
 
 var snakeFood;
 
+/* Game total points */
+var totalPoints = 0;
+
 // Define starting position for snake
 var leftPos = 0;
 var topPos = 0;
@@ -270,6 +273,14 @@ function checkCollision() {
     var snakeFoodTopVal = snakeFood.dataset.topval;
 
     if((snakeLeftVal === snakeFoodLeftVal && snakeTopVal === snakeFoodTopVal)) {
-        clearAllIntervals();
+        snakeFood.remove();
+        updateTotalPoints();
+        createFood();
     }
+}
+
+/* Update total points */
+function updateTotalPoints() {
+    totalPoints += 1;
+    document.getElementById("game-total-points").innerHTML = totalPoints;
 }
