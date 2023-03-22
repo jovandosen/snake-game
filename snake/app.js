@@ -71,6 +71,7 @@ function moveSnakeLeft() {
         leftPos -= 20;
         updateSnakeLeftVal(leftPos);
         snake.style.left = leftPos + "px";
+        checkCollision();
     }, 100);
 }
 
@@ -93,6 +94,7 @@ function moveSnakeRight() {
         leftPos += 20;
         updateSnakeLeftVal(leftPos);
         snake.style.left = leftPos + "px";
+        checkCollision();
     }, 100);
 }
 
@@ -115,6 +117,7 @@ function moveSnakeUp() {
         topPos -= 20;
         updateSnakeTopVal(topPos);
         snake.style.top = topPos + "px";
+        checkCollision();
     }, 100);
 }
 
@@ -137,6 +140,7 @@ function moveSnakeDown() {
         topPos += 20;
         updateSnakeTopVal(topPos);
         snake.style.top = topPos + "px";
+        checkCollision();
     }, 100);
 }
 
@@ -233,7 +237,11 @@ function updateSnakeLeftVal(val) {
 
 /* create a function to get a random number between two numbers */
 function numberInRange(max, min) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
+    var x = Math.floor(Math.random() * (max - min + 1) + min);
+    if(x % 20 != 0) {
+        x = numberInRange(max, min);
+    } 
+    return x;
 }
 
 function createFood() {
@@ -254,3 +262,14 @@ function createFood() {
 }
 
 createFood();
+
+function checkCollision() {
+    var snakeLeftVal = snake.dataset.leftval;
+    var snakeTopVal = snake.dataset.topval;
+    var snakeFoodLeftVal = snakeFood.dataset.leftval;
+    var snakeFoodTopVal = snakeFood.dataset.topval;
+
+    if((snakeLeftVal === snakeFoodLeftVal && snakeTopVal === snakeFoodTopVal)) {
+        clearAllIntervals();
+    }
+}
