@@ -8,15 +8,14 @@ snake.setAttribute("id", "snake");
 
 snake.classList.add("snake-skin");
 
-snake.dataset.topval = 0;
-snake.dataset.leftval = 0;
-
 snakeContainer.appendChild(snake);
 
 var snakeFood;
 
 /* Game total points */
 var totalPoints = 0;
+
+var snakeCloneStartingPoint = 0;
 
 // Define starting position for snake
 var leftPos = 0;
@@ -72,7 +71,6 @@ function moveSnakeLeft() {
             return;
         }
         leftPos -= 20;
-        updateSnakeLeftVal(leftPos);
         snake.style.left = leftPos + "px";
         checkCollision();
     }, 100);
@@ -95,7 +93,6 @@ function moveSnakeRight() {
             return;
         }
         leftPos += 20;
-        updateSnakeLeftVal(leftPos);
         snake.style.left = leftPos + "px";
         checkCollision();
     }, 100);
@@ -118,7 +115,6 @@ function moveSnakeUp() {
             return;
         }
         topPos -= 20;
-        updateSnakeTopVal(topPos);
         snake.style.top = topPos + "px";
         checkCollision();
     }, 100);
@@ -141,7 +137,6 @@ function moveSnakeDown() {
             return;
         }
         topPos += 20;
-        updateSnakeTopVal(topPos);
         snake.style.top = topPos + "px";
         checkCollision();
     }, 100);
@@ -230,14 +225,6 @@ function triggerArrowClick(position) {
     }
 }
 
-function updateSnakeTopVal(val) {
-    snake.dataset.topval = val;
-}
-
-function updateSnakeLeftVal(val) {
-    snake.dataset.leftval = val;
-}
-
 /* create a function to get a random number between two numbers */
 function numberInRange(max, min) {
     var x = Math.floor(Math.random() * (max - min + 1) + min);
@@ -258,19 +245,16 @@ function createFood() {
     snakeFood.style.top = foodTopPos + "px";
     snakeFood.style.left = foodLeftPost + "px";
 
-    snakeFood.dataset.topval = foodTopPos;
-    snakeFood.dataset.leftval = foodLeftPost;
-
     snakeContainer.appendChild(snakeFood);
 }
 
 createFood();
 
 function checkCollision() {
-    var snakeLeftVal = snake.dataset.leftval;
-    var snakeTopVal = snake.dataset.topval;
-    var snakeFoodLeftVal = snakeFood.dataset.leftval;
-    var snakeFoodTopVal = snakeFood.dataset.topval;
+    var snakeLeftVal = parseInt(snake.style.left);
+    var snakeTopVal = parseInt(snake.style.top);
+    var snakeFoodLeftVal = parseInt(snakeFood.style.left);
+    var snakeFoodTopVal = parseInt(snakeFood.style.top);
 
     if((snakeLeftVal === snakeFoodLeftVal && snakeTopVal === snakeFoodTopVal)) {
         snakeFood.remove();
