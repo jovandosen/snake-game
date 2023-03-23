@@ -65,10 +65,10 @@ function moveSnakeLeft() {
     triggerArrowClick('left');
 
     leftInterval = setInterval(function() {
-        if(leftPos == 0) {
+        if(leftPos == 20) {
             clearInterval(leftInterval);
-            gameOver();
-            return;
+            moveSnakeRight();
+            // getValue();
         }
         leftPos -= 20;
         snake.style.left = leftPos + "px";
@@ -87,10 +87,10 @@ function moveSnakeRight() {
     triggerArrowClick('right');
 
     rightInterval = setInterval(function() {
-        if(leftPos == 980) {
+        if(leftPos == 960) {
             clearInterval(rightInterval);
-            gameOver();
-            return;
+            moveSnakeLeft();
+            // getValue();
         }
         leftPos += 20;
         snake.style.left = leftPos + "px";
@@ -109,10 +109,10 @@ function moveSnakeUp() {
     triggerArrowClick('up');
 
     upInterval = setInterval(function() {
-        if(topPos == 0) {
+        if(topPos == 20) {
             clearInterval(upInterval);
-            gameOver();
-            return;
+            moveSnakeDown();
+            // getValue();
         }
         topPos -= 20;
         snake.style.top = topPos + "px";
@@ -131,10 +131,10 @@ function moveSnakeDown() {
     triggerArrowClick('down');
 
     downInterval = setInterval(function() {
-        if(topPos == 780) {
+        if(topPos == 760) {
             clearInterval(downInterval);
-            gameOver();
-            return;
+            moveSnakeUp();
+            // getValue();
         }
         topPos += 20;
         snake.style.top = topPos + "px";
@@ -268,3 +268,27 @@ function updateTotalPoints() {
     totalPoints += 1;
     document.getElementById("game-total-points").innerHTML = totalPoints;
 }
+
+// function na() {
+//     console.log('na');
+// }
+
+// function na2() {
+//     console.log('na2');
+// }
+
+// function na3() {
+//     console.log('na3');
+// }
+
+// function na4() {
+//     console.log('na4');
+// }
+
+// function getValue() {
+//     var arrowFunctions = [moveSnakeLeft, moveSnakeRight, moveSnakeUp, moveSnakeDown];
+//     var randomArrowFunction = arrowFunctions[Math.floor(Math.random() * arrowFunctions.length)];
+//     randomArrowFunction();
+// }
+
+// getValue();
