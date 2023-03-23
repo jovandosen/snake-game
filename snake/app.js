@@ -10,7 +10,8 @@ snake.classList.add("snake-skin");
 
 snakeContainer.appendChild(snake);
 
-var snakeFood;
+var snakeFood = [];
+var snakeFoodStartingId = 0;
 
 /* Game total points */
 var totalPoints = 0;
@@ -235,31 +236,36 @@ function numberInRange(max, min) {
 }
 
 function createFood() {
-    snakeFood = document.createElement("div");
+    var newFood = document.createElement("div");
 
-    snakeFood.classList.add("food");
+    newFood.setAttribute("id", 'food-el-' + (snakeCloneStartingPoint += 1));
+
+    newFood.classList.add("food");
 
     var foodTopPos = numberInRange(780, 0);
     var foodLeftPost = numberInRange(980, 0);
 
-    snakeFood.style.top = foodTopPos + "px";
-    snakeFood.style.left = foodLeftPost + "px";
+    newFood.style.top = foodTopPos + "px";
+    newFood.style.left = foodLeftPost + "px";
 
-    snakeContainer.appendChild(snakeFood);
+    snakeContainer.appendChild(newFood);
+
+    snakeFood.push(newFood);
 }
 
+createFood();
 createFood();
 
 function checkCollision() {
     var snakeLeftVal = parseInt(snake.style.left);
     var snakeTopVal = parseInt(snake.style.top);
-    var snakeFoodLeftVal = parseInt(snakeFood.style.left);
-    var snakeFoodTopVal = parseInt(snakeFood.style.top);
 
-    if((snakeLeftVal === snakeFoodLeftVal && snakeTopVal === snakeFoodTopVal)) {
-        snakeFood.remove();
-        updateTotalPoints();
-        createFood();
+    for(var i = 0; i < snakeFood.length; i++) {
+        if((snakeLeftVal === parseInt(snakeFood[i].style.left) && snakeTopVal === parseInt(snakeFood[i].style.top))) {
+            snakeFood[i].remove();
+            updateTotalPoints();
+            createFood();
+        }
     }
 }
 
