@@ -256,6 +256,10 @@ function checkCollision() {
     var snakeFoodLeftVal = parseInt(snakeFood.style.left);
     var snakeFoodTopVal = parseInt(snakeFood.style.top);
 
+    if(isNaN(snakeTopVal)) {
+        snakeTopVal = 0;
+    }
+
     if((snakeLeftVal === snakeFoodLeftVal && snakeTopVal === snakeFoodTopVal)) {
         snakeFood.remove();
         updateTotalPoints();
