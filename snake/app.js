@@ -8,6 +8,8 @@ snake.setAttribute("id", "snake");
 
 snake.classList.add("snake-skin");
 
+snake.innerHTML = '1';
+
 snakeContainer.appendChild(snake);
 
 var snakeFood;
@@ -15,7 +17,11 @@ var snakeFood;
 /* Game total points */
 var totalPoints = 0;
 
-var snakeCloneStartingPoint = 0;
+var snakeTrail = [];
+var snakeTrailId = 0;
+
+var snakeCloneIntervals = [];
+var snakeCloneId = 0;
 
 // Define starting position for snake
 var leftPos = 0;
@@ -72,7 +78,7 @@ function moveSnakeLeft() {
         }
         leftPos -= 20;
         snake.style.left = leftPos + "px";
-        checkCollision();
+        checkCollision('left');
     }, 100);
 }
 
@@ -94,7 +100,7 @@ function moveSnakeRight() {
         }
         leftPos += 20;
         snake.style.left = leftPos + "px";
-        checkCollision();
+        checkCollision('right');
     }, 100);
 }
 
@@ -116,7 +122,7 @@ function moveSnakeUp() {
         }
         topPos -= 20;
         snake.style.top = topPos + "px";
-        checkCollision();
+        checkCollision('up');
     }, 100);
 }
 
@@ -138,7 +144,7 @@ function moveSnakeDown() {
         }
         topPos += 20;
         snake.style.top = topPos + "px";
-        checkCollision();
+        checkCollision('down');
     }, 100);
 }
 
@@ -194,7 +200,7 @@ function gameMainTimer(totalSeconds) {
     }, 1000);
 }
 
-gameMainTimer(300);
+gameMainTimer(3000);
 
 function clearAllIntervals() {
     clearInterval(leftInterval);
@@ -250,15 +256,26 @@ function createFood() {
 
 createFood();
 
-function checkCollision() {
+var shouldTrackTrail = false;
+
+function checkCollision(direction) {
     var snakeLeftVal = parseInt(snake.style.left);
     var snakeTopVal = parseInt(snake.style.top);
     var snakeFoodLeftVal = parseInt(snakeFood.style.left);
     var snakeFoodTopVal = parseInt(snakeFood.style.top);
 
+    if(shouldTrackTrail) {
+        snakeTrail.push({id: snakeTrailId += 1, top: (isNaN(parseInt(snake.style.top)) ? 0 : parseInt(snake.style.top)), left: parseInt(snake.style.left)});
+    }
+
     if((snakeLeftVal === snakeFoodLeftVal && snakeTopVal === snakeFoodTopVal)) {
         snakeFood.remove();
         updateTotalPoints();
+
+        shouldTrackTrail = true;
+        snakeTrail.push({id: snakeTrailId += 1, top: (isNaN(parseInt(snake.style.top)) ? 0 : parseInt(snake.style.top)), left: parseInt(snake.style.left)});
+
+        createSnakeClone(direction);
         createFood();
     }
 }
@@ -267,4 +284,46 @@ function checkCollision() {
 function updateTotalPoints() {
     totalPoints += 1;
     document.getElementById("game-total-points").innerHTML = totalPoints;
+}
+
+function createSnakeClone(direction) {
+    var snakeClone = document.createElement("div");
+    snakeClone.setAttribute("id", "snake-clone-" + (snakeCloneId += 1));
+    snakeClone.classList.add("snake-clone");  
+    snakeContainer.appendChild(snakeClone);
+    setSnakeCloneInterval(snakeClone, direction);
+}
+
+function setSnakeCloneInterval(clone, direction) {
+    var x;
+    var y;
+
+    switch(direction) {
+        case 'left':
+            x = 0;
+            y = 20;
+            break;
+        case 'right':
+            x = 0;
+            y = -20;
+            break;
+        case 'up':
+            x = 20;
+            y = 0
+            break;
+        case 'down':
+            x = -20;
+            y = 0;
+            break;
+    }
+
+    var initialIndex = 0;
+
+    var currentSnakeCloneInterval = setInterval(function() {
+        initialIndex += 1;
+        clone.style.top = (snakeTrail[initialIndex].top + x) + "px";
+        clone.style.left = (snakeTrail[initialIndex].left + y) + "px";
+    }, 100);
+
+    snakeCloneIntervals.push({id: clone.getAttribute("id"), timer: currentSnakeCloneInterval});
 }

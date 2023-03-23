@@ -23,6 +23,7 @@
 .snake-skin {
     top: 0;
     left: 0;
+    color: white;
 }
 
 .snake-clone, .snake-skin {
@@ -32,7 +33,7 @@
     position: absolute;
 }
 
-#game-over-container, #snake-game-score-container {
+#game-over-container, #snake-game-score-container, .snake-skin {
     display: flex;
     flex-direction: column;
     justify-content: center;
