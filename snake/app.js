@@ -35,6 +35,10 @@ var leftArrowClicked = false;
 var upArrowClicked = false;
 var downArrowClicked = false;
 
+var firstCollision = false;
+var snakeTrail = [];
+var snakeTrailId = 0;
+
 /* Check which key is pressed */
 function checkKeyPressed(e) {
     if(e.keyCode === 32) {
@@ -260,7 +264,12 @@ function checkCollision() {
         snakeTopVal = 0;
     }
 
+    if(firstCollision) {
+        trackSnakePath();
+    }
+
     if((snakeLeftVal === snakeFoodLeftVal && snakeTopVal === snakeFoodTopVal)) {
+        firstCollision = true;
         snakeFood.remove();
         updateTotalPoints();
         createFood();
@@ -271,4 +280,9 @@ function checkCollision() {
 function updateTotalPoints() {
     totalPoints += 1;
     document.getElementById("game-total-points").innerHTML = totalPoints;
+}
+
+function trackSnakePath() {
+    snakeTrail.push({id: snakeTrailId += 1, top: (isNaN(parseInt(snake.style.top)) ? 0 : parseInt(snake.style.top)), left: parseInt(snake.style.left)});
+    console.log(snakeTrail);
 }
