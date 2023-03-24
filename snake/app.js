@@ -76,7 +76,7 @@ function moveSnakeLeft() {
         }
         leftPos -= 20;
         snake.style.left = leftPos + "px";
-        checkCollision();
+        checkCollision('left');
     }, 100);
 }
 
@@ -98,7 +98,7 @@ function moveSnakeRight() {
         }
         leftPos += 20;
         snake.style.left = leftPos + "px";
-        checkCollision();
+        checkCollision('right');
     }, 100);
 }
 
@@ -120,7 +120,7 @@ function moveSnakeUp() {
         }
         topPos -= 20;
         snake.style.top = topPos + "px";
-        checkCollision();
+        checkCollision('up');
     }, 100);
 }
 
@@ -142,7 +142,7 @@ function moveSnakeDown() {
         }
         topPos += 20;
         snake.style.top = topPos + "px";
-        checkCollision();
+        checkCollision('down');
     }, 100);
 }
 
@@ -198,7 +198,7 @@ function gameMainTimer(totalSeconds) {
     }, 1000);
 }
 
-gameMainTimer(300);
+gameMainTimer(3000);
 
 function clearAllIntervals() {
     clearInterval(leftInterval);
@@ -254,7 +254,7 @@ function createFood() {
 
 createFood();
 
-function checkCollision() {
+function checkCollision(direction) {
     var snakeLeftVal = parseInt(snake.style.left);
     var snakeTopVal = parseInt(snake.style.top);
     var snakeFoodLeftVal = parseInt(snakeFood.style.left);
@@ -270,6 +270,7 @@ function checkCollision() {
 
     if((snakeLeftVal === snakeFoodLeftVal && snakeTopVal === snakeFoodTopVal)) {
         firstCollision = true;
+        getSnakeDirection(direction);
         snakeFood.remove();
         updateTotalPoints();
         createFood();
@@ -284,5 +285,22 @@ function updateTotalPoints() {
 
 function trackSnakePath() {
     snakeTrail.push({id: snakeTrailId += 1, top: (isNaN(parseInt(snake.style.top)) ? 0 : parseInt(snake.style.top)), left: parseInt(snake.style.left)});
-    console.log(snakeTrail);
+    // console.log(snakeTrail);
+}
+
+function getSnakeDirection(direction) {
+    switch(direction) {
+        case 'left':
+            console.log('left');
+            break;
+        case 'right':
+            console.log('right');
+            break;
+        case 'up':
+            console.log('up');
+            break;
+        case 'down':
+            console.log('down');
+            break;
+    }
 }
