@@ -45,19 +45,16 @@ var snakeCloneId = 0;
 
 var cloneInterval;
 
-var zzz = 500;
+var zzz = 100;
 
 var snakeClone;
 
 var xy = 0;
 
-// var snakeClones = [];
-
 /* Check which key is pressed */
 function checkKeyPressed(e) {
     if(e.keyCode === 32) {
         clearAllIntervals();
-        // clearInterval(cloneInterval);
     }
     if(e.keyCode === 37) {
         moveSnakeLeft();
@@ -302,7 +299,6 @@ function checkCollision(direction) {
 
     if((snakeLeftVal === snakeFoodLeftVal && snakeTopVal === snakeFoodTopVal)) {
         firstCollision = true;
-        // getSnakeDirection(direction);
 
         snakeFood.remove();
         updateTotalPoints();
@@ -323,38 +319,14 @@ function updateTotalPoints() {
 
 function trackSnakePath() {
     snakeTrail.push({id: snakeTrailId += 1, top: (isNaN(parseInt(snake.style.top)) ? 0 : parseInt(snake.style.top)), left: parseInt(snake.style.left)});
-    // console.log(snakeTrail);
-}
-
-function getSnakeDirection(direction) {
-    switch(direction) {
-        case 'left':
-            console.log('left');
-            break;
-        case 'right':
-            console.log('right');
-            break;
-        case 'up':
-            console.log('up');
-            break;
-        case 'down':
-            console.log('down');
-            break;
-    }
 }
 
 function createSnakeClone() {
     snakeClone = document.createElement("div");
     snakeClone.setAttribute("id", "snake-clone-" + (snakeCloneId += 1));
     snakeClone.classList.add("snake-clone");
-    // snakeClone.style.top = top + "px";
-    // snakeClone.style.left = left + "px";
-
     setSnakeCloneInterval();
-
     snakeContainer.appendChild(snakeClone);
-
-    // snakeClones.push(snakeClone);
 }
 
 function setSnakeCloneInterval() {
