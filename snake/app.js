@@ -121,7 +121,7 @@ function moveSnakeLeft() {
         }
         leftPos -= 20;
         snake.style.left = leftPos + "px";
-        checkCollision('left');
+        checkCollision();
     }, movementSpeed);
 
     if(firstCollision) {
@@ -147,7 +147,7 @@ function moveSnakeRight() {
         }
         leftPos += 20;
         snake.style.left = leftPos + "px";
-        checkCollision('right');
+        checkCollision();
     }, movementSpeed);
 
     if(firstCollision) {
@@ -173,7 +173,7 @@ function moveSnakeUp() {
         }
         topPos -= 20;
         snake.style.top = topPos + "px";
-        checkCollision('up');
+        checkCollision();
     }, movementSpeed);
 
     if(firstCollision) {
@@ -199,7 +199,7 @@ function moveSnakeDown() {
         }
         topPos += 20;
         snake.style.top = topPos + "px";
-        checkCollision('down');
+        checkCollision();
     }, movementSpeed);
 
     if(firstCollision) {
@@ -212,6 +212,7 @@ document.addEventListener("keydown", checkKeyPressed);
 
 // Define game over function
 function gameOver() {
+    clearAllIntervals();
     clearTimeout(mainTimerInterval);
     document.getElementById("game-main-timer").innerHTML = "GAME OVER";
     var gameOverContainer = document.createElement("div");
@@ -316,7 +317,7 @@ function createFood() {
 
 createFood();
 
-function checkCollision(direction) {
+function checkCollision() {
     var snakeLeftVal = parseInt(snake.style.left);
     var snakeTopVal = parseInt(snake.style.top);
     var snakeFoodLeftVal = parseInt(snakeFood.style.left);
@@ -324,6 +325,10 @@ function checkCollision(direction) {
 
     if(isNaN(snakeTopVal)) {
         snakeTopVal = 0;
+    }
+
+    if(isNaN(snakeLeftVal)) {
+        snakeLeftVal = 0;
     }
 
     if(firstCollision) {
