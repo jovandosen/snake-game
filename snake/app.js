@@ -1,23 +1,26 @@
 // snake game main container
 var snakeContainer = document.getElementById("snake-game-main-container");
 
-// create snake and append to DOM
+// create snake element
 var snake = document.createElement("div");
 
+// Set snake id
 snake.setAttribute("id", "snake");
 
+// Set snake class
 snake.classList.add("snake-skin");
 
+// Define primary snake (this is for visual purpose only)
 snake.innerHTML = '1';
 
+// Append snake element to DOM
 snakeContainer.appendChild(snake);
 
+// Define snake food global value
 var snakeFood;
 
 /* Game total points */
 var totalPoints = 0;
-
-var snakeCloneStartingPoint = 0;
 
 // Define starting position for snake
 var leftPos = 0;
@@ -32,25 +35,37 @@ var upInterval;
 // Define main game timer
 var mainTimerInterval;
 
+// Define default values for arrow keys
 var rightArrowClicked = false;
 var leftArrowClicked = false;
 var upArrowClicked = false;
 var downArrowClicked = false;
 
+// Define default collision value
 var firstCollision = false;
+
+// Define snake trails
 var snakeTrail = [];
+
+// Define snake trail ids
 var snakeTrailId = 0;
 
+// Define snake clone ids
 var snakeCloneId = 0;
 
+// Define clone intervals
 var cloneInterval;
 
-var zzz = 100;
+// Define movement speed for snake and snake clones 
+var movementSpeed = 100;
 
+// Define global snake clone value
 var snakeClone;
 
+// Define snake trail indexes
 var xy = 0;
 
+// Initial value for arrow keys
 var previousArrow = '';
 
 /* Check which key is pressed */
@@ -107,7 +122,7 @@ function moveSnakeLeft() {
         leftPos -= 20;
         snake.style.left = leftPos + "px";
         checkCollision('left');
-    }, zzz);
+    }, movementSpeed);
 
     if(firstCollision) {
         setSnakeCloneInterval();
@@ -133,7 +148,7 @@ function moveSnakeRight() {
         leftPos += 20;
         snake.style.left = leftPos + "px";
         checkCollision('right');
-    }, zzz);
+    }, movementSpeed);
 
     if(firstCollision) {
         setSnakeCloneInterval();
@@ -159,7 +174,7 @@ function moveSnakeUp() {
         topPos -= 20;
         snake.style.top = topPos + "px";
         checkCollision('up');
-    }, zzz);
+    }, movementSpeed);
 
     if(firstCollision) {
         setSnakeCloneInterval();
@@ -185,7 +200,7 @@ function moveSnakeDown() {
         topPos += 20;
         snake.style.top = topPos + "px";
         checkCollision('down');
-    }, zzz);
+    }, movementSpeed);
 
     if(firstCollision) {
         setSnakeCloneInterval();
@@ -352,7 +367,7 @@ function setSnakeCloneInterval() {
         snakeClone.style.top = snakeTrail[xy].top + "px";
         snakeClone.style.left = snakeTrail[xy].left + "px";
         xy += 1;
-    }, zzz);
+    }, movementSpeed);
 }
 
 function checkIfClonesExist() {
