@@ -47,6 +47,10 @@ var cloneInterval;
 
 var zzz = 500;
 
+var snakeClone;
+
+var xy = 0;
+
 // var snakeClones = [];
 
 /* Check which key is pressed */
@@ -89,6 +93,10 @@ function moveSnakeLeft() {
         snake.style.left = leftPos + "px";
         checkCollision('left');
     }, zzz);
+
+    if(firstCollision) {
+        setSnakeCloneInterval();
+    }
 }
 
 /* Move snake to the right */
@@ -111,6 +119,10 @@ function moveSnakeRight() {
         snake.style.left = leftPos + "px";
         checkCollision('right');
     }, zzz);
+
+    if(firstCollision) {
+        setSnakeCloneInterval();
+    }
 }
 
 /* Move snake up */
@@ -133,6 +145,10 @@ function moveSnakeUp() {
         snake.style.top = topPos + "px";
         checkCollision('up');
     }, zzz);
+
+    if(firstCollision) {
+        setSnakeCloneInterval();
+    }
 }
 
 /* Move snake down */
@@ -155,6 +171,10 @@ function moveSnakeDown() {
         snake.style.top = topPos + "px";
         checkCollision('down');
     }, zzz);
+
+    if(firstCollision) {
+        setSnakeCloneInterval();
+    }
 }
 
 /* Call checkKeyPressed function on keydown */
@@ -216,7 +236,7 @@ function clearAllIntervals() {
     clearInterval(rightInterval);
     clearInterval(downInterval);
     clearInterval(upInterval);
-    // clearInterval(cloneInterval);
+    clearInterval(cloneInterval);
 }
 
 function triggerArrowClick(position) {
@@ -324,25 +344,23 @@ function getSnakeDirection(direction) {
 }
 
 function createSnakeClone() {
-    var snakeClone = document.createElement("div");
+    snakeClone = document.createElement("div");
     snakeClone.setAttribute("id", "snake-clone-" + (snakeCloneId += 1));
     snakeClone.classList.add("snake-clone");
     // snakeClone.style.top = top + "px";
     // snakeClone.style.left = left + "px";
 
-    setSnakeCloneInterval(snakeClone);
+    setSnakeCloneInterval();
 
     snakeContainer.appendChild(snakeClone);
 
     // snakeClones.push(snakeClone);
 }
 
-function setSnakeCloneInterval(clone) {
-    var x = 0;
-
+function setSnakeCloneInterval() {
     cloneInterval = setInterval(function() {
-        clone.style.top = snakeTrail[x].top + "px";
-        clone.style.left = snakeTrail[x].left + "px";
-        x += 1;
-    }, zzz + 100);
+        snakeClone.style.top = snakeTrail[xy].top + "px";
+        snakeClone.style.left = snakeTrail[xy].left + "px";
+        xy += 1;
+    }, zzz);
 }
