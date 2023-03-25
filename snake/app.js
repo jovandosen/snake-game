@@ -51,22 +51,40 @@ var snakeClone;
 
 var xy = 0;
 
+var previousArrow = '';
+
 /* Check which key is pressed */
 function checkKeyPressed(e) {
     if(e.keyCode === 32) {
         clearAllIntervals();
     }
     if(e.keyCode === 37) {
+        if(checkIfClonesExist() && previousArrow == 'right') {
+            return;
+        }
         moveSnakeLeft();
+        previousArrow = 'left';
     }
     if(e.keyCode === 38) {
+        if(checkIfClonesExist() && previousArrow == 'down') {
+            return;
+        }
         moveSnakeUp();
+        previousArrow = 'up';
     }
     if(e.keyCode === 39) {
+        if(checkIfClonesExist() && previousArrow == 'left') {
+            return;
+        }
         moveSnakeRight();
+        previousArrow = 'right';
     }
     if(e.keyCode === 40) {
+        if(checkIfClonesExist() && previousArrow == 'up') {
+            return;
+        }
         moveSnakeDown();
+        previousArrow = 'down';
     }
 }
 
@@ -335,4 +353,16 @@ function setSnakeCloneInterval() {
         snakeClone.style.left = snakeTrail[xy].left + "px";
         xy += 1;
     }, zzz);
+}
+
+function checkIfClonesExist() {
+    var result = false;
+
+    var total = document.getElementsByClassName("snake-clone");
+    
+    if(total.length > 0){
+        result = true;
+    }
+
+    return result;
 }
