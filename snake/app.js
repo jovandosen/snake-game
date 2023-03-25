@@ -8,6 +8,8 @@ snake.setAttribute("id", "snake");
 
 snake.classList.add("snake-skin");
 
+snake.innerHTML = '1';
+
 snakeContainer.appendChild(snake);
 
 var snakeFood;
@@ -39,10 +41,19 @@ var firstCollision = false;
 var snakeTrail = [];
 var snakeTrailId = 0;
 
+var snakeCloneId = 0;
+
+var cloneInterval;
+
+var zzz = 500;
+
+// var snakeClones = [];
+
 /* Check which key is pressed */
 function checkKeyPressed(e) {
     if(e.keyCode === 32) {
         clearAllIntervals();
+        // clearInterval(cloneInterval);
     }
     if(e.keyCode === 37) {
         moveSnakeLeft();
@@ -77,7 +88,7 @@ function moveSnakeLeft() {
         leftPos -= 20;
         snake.style.left = leftPos + "px";
         checkCollision('left');
-    }, 100);
+    }, zzz);
 }
 
 /* Move snake to the right */
@@ -99,7 +110,7 @@ function moveSnakeRight() {
         leftPos += 20;
         snake.style.left = leftPos + "px";
         checkCollision('right');
-    }, 100);
+    }, zzz);
 }
 
 /* Move snake up */
@@ -121,7 +132,7 @@ function moveSnakeUp() {
         topPos -= 20;
         snake.style.top = topPos + "px";
         checkCollision('up');
-    }, 100);
+    }, zzz);
 }
 
 /* Move snake down */
@@ -143,7 +154,7 @@ function moveSnakeDown() {
         topPos += 20;
         snake.style.top = topPos + "px";
         checkCollision('down');
-    }, 100);
+    }, zzz);
 }
 
 /* Call checkKeyPressed function on keydown */
@@ -205,6 +216,7 @@ function clearAllIntervals() {
     clearInterval(rightInterval);
     clearInterval(downInterval);
     clearInterval(upInterval);
+    // clearInterval(cloneInterval);
 }
 
 function triggerArrowClick(position) {
@@ -270,10 +282,16 @@ function checkCollision(direction) {
 
     if((snakeLeftVal === snakeFoodLeftVal && snakeTopVal === snakeFoodTopVal)) {
         firstCollision = true;
-        getSnakeDirection(direction);
+        // getSnakeDirection(direction);
+
         snakeFood.remove();
         updateTotalPoints();
-        createFood();
+
+        trackSnakePath();
+
+        createSnakeClone();
+
+        // createFood();
     }
 }
 
@@ -303,4 +321,28 @@ function getSnakeDirection(direction) {
             console.log('down');
             break;
     }
+}
+
+function createSnakeClone() {
+    var snakeClone = document.createElement("div");
+    snakeClone.setAttribute("id", "snake-clone-" + (snakeCloneId += 1));
+    snakeClone.classList.add("snake-clone");
+    // snakeClone.style.top = top + "px";
+    // snakeClone.style.left = left + "px";
+
+    setSnakeCloneInterval(snakeClone);
+
+    snakeContainer.appendChild(snakeClone);
+
+    // snakeClones.push(snakeClone);
+}
+
+function setSnakeCloneInterval(clone) {
+    var x = 0;
+
+    cloneInterval = setInterval(function() {
+        clone.style.top = snakeTrail[x].top + "px";
+        clone.style.left = snakeTrail[x].left + "px";
+        x += 1;
+    }, zzz + 100);
 }
