@@ -304,3 +304,40 @@ function getSnakeDirection(direction) {
             break;
     }
 }
+
+var x = 0;
+var y = 0;
+
+function drawBoxes() {
+
+    for(var i = 1; i <= 50; i++) {
+
+        for(var j = 1; j <= 40; j++) {
+
+            var box = document.createElement("div");
+            box.classList.add("box-style");
+            box.style.top = x + "px";
+            box.style.left = y + "px";
+            snakeContainer.appendChild(box);
+
+            x += 20;
+
+            if(j == 40) {
+                x = 0;
+                y += 20;
+            }
+        }
+
+    }
+
+}
+
+drawBoxes();
+
+var boxes = document.getElementsByClassName("box-style");
+
+for(var i = 0; i < boxes.length; i++) {
+    boxes[i].addEventListener("click", function() {
+        this.classList.add("box-color");
+    });
+}
