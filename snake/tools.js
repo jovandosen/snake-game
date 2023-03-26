@@ -30,9 +30,28 @@ function fillBoxes() {
     }
 }
 
-function toggleDevTools(that) {
-    if(that.checked) {
-        drawBoxes();
-        fillBoxes();
+function removeBoxes() {
+    var boxes = document.getElementsByClassName("box-style");
+    for(var i = 0; i < boxes.length; i++) {
+        boxes[i].remove();
     }
 }
+
+function toggleDevTools(that) {
+    if(that.checked) {
+        localStorage.setItem("dev-tools-active", "yes");
+        drawBoxes();
+        fillBoxes();
+    } else {
+        localStorage.setItem("dev-tools-active", "no");
+        removeBoxes();
+    }
+}
+
+function checkDevTools() {
+    if(localStorage.getItem("dev-tools-active") == "yes") {
+        document.getElementById("dev-tools").click();
+    }
+}
+
+checkDevTools();
