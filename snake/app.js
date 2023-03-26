@@ -46,6 +46,7 @@ var firstCollision = false;
 
 // Define snake trails
 var snakeTrail = [];
+var allSnakeTrails = [];
 
 // Define snake trail ids
 var snakeTrailId = 0;
@@ -341,9 +342,11 @@ function checkCollision() {
         snakeFood.remove();
         updateTotalPoints();
 
+        createSnakeClone();
+
         trackSnakePath();
 
-        createSnakeClone();
+        setSnakeCloneInterval();
 
         // createFood();
     }
@@ -357,20 +360,20 @@ function updateTotalPoints() {
 
 function trackSnakePath() {
     snakeTrail.push({id: snakeTrailId += 1, top: (isNaN(parseInt(snake.style.top)) ? 0 : parseInt(snake.style.top)), left: parseInt(snake.style.left)});
+    addOrUpdateSnakeTrail(snakeTrail);
 }
 
 function createSnakeClone() {
     snakeClone = document.createElement("div");
-    snakeClone.setAttribute("id", "snake-clone-" + (snakeCloneId += 1));
+    snakeClone.setAttribute("id", "snakeClone" + (snakeCloneId += 1));
     snakeClone.classList.add("snake-clone");
-    setSnakeCloneInterval();
     snakeContainer.appendChild(snakeClone);
 }
 
 function setSnakeCloneInterval() {
     cloneInterval = setInterval(function() {
-        snakeClone.style.top = snakeTrail[xy].top + "px";
-        snakeClone.style.left = snakeTrail[xy].left + "px";
+        snakeClone.style.top = allSnakeTrails[snakeClone.getAttribute("id")][xy].top + "px";
+        snakeClone.style.left = allSnakeTrails[snakeClone.getAttribute("id")][xy].left + "px";
         xy += 1;
     }, movementSpeed);
 }
@@ -385,4 +388,9 @@ function checkIfClonesExist() {
     }
 
     return result;
+}
+
+function addOrUpdateSnakeTrail(trail) {
+    var snakeCloneIdentifier = snakeClone.getAttribute("id");
+    allSnakeTrails[snakeCloneIdentifier] = trail;
 }
