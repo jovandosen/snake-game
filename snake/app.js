@@ -1,14 +1,23 @@
+var clones = [];
+
 // snake game main container
 var snakeContainer = document.getElementById("snake-game-main-container");
 
 // create snake and append to DOM
 var snake = document.createElement("div");
 
-snake.setAttribute("id", "snake");
+snake.setAttribute("id", "0-clone");
 
 snake.classList.add("snake-skin");
 
+snake.setAttribute('data-prev-top', 0);
+snake.setAttribute('data-prev-left', 0);
+snake.setAttribute('data-current-top', 0);
+snake.setAttribute('data-current-left', 0);
+
 snakeContainer.appendChild(snake);
+
+clones.push(snake);
 
 var snakeFood;
 
@@ -16,6 +25,7 @@ var snakeFood;
 var totalPoints = 0;
 
 var snakeCloneStartingPoint = 0;
+var snakeCloneStartingId = 0;
 
 // Define starting position for snake
 var leftPos = 0;
@@ -34,10 +44,6 @@ var rightArrowClicked = false;
 var leftArrowClicked = false;
 var upArrowClicked = false;
 var downArrowClicked = false;
-
-var firstCollision = false;
-var snakeTrail = [];
-var snakeTrailId = 0;
 
 /* Check which key is pressed */
 function checkKeyPressed(e) {
@@ -254,6 +260,26 @@ function createFood() {
 
 createFood();
 
+function createClone() {
+    var clone = document.createElement("div");
+
+    snakeCloneStartingId += 1;
+
+    var cloneId = snakeCloneStartingId;
+
+    clone.setAttribute("id", cloneId + "-clone");
+
+    clone.classList.add("snake-clone");
+
+    trackClonePath(clone);
+
+    snakeContainer.appendChild(clone);
+
+    clones.push(clone);
+
+    // clearAllIntervals();
+}
+
 function checkCollision(direction) {
     var snakeLeftVal = parseInt(snake.style.left);
     var snakeTopVal = parseInt(snake.style.top);
@@ -264,16 +290,14 @@ function checkCollision(direction) {
         snakeTopVal = 0;
     }
 
-    if(firstCollision) {
-        trackSnakePath();
-    }
+    trackSnakePath(snakeTopVal, snakeLeftVal);
 
     if((snakeLeftVal === snakeFoodLeftVal && snakeTopVal === snakeFoodTopVal)) {
-        firstCollision = true;
-        getSnakeDirection(direction);
         snakeFood.remove();
         updateTotalPoints();
         createFood();
+        createClone();
+        // console.log(clones);
     }
 }
 
@@ -283,24 +307,36 @@ function updateTotalPoints() {
     document.getElementById("game-total-points").innerHTML = totalPoints;
 }
 
-function trackSnakePath() {
-    snakeTrail.push({id: snakeTrailId += 1, top: (isNaN(parseInt(snake.style.top)) ? 0 : parseInt(snake.style.top)), left: parseInt(snake.style.left)});
-    // console.log(snakeTrail);
+function trackSnakePath(x, y) {
+    snake.setAttribute("data-prev-top", snake.getAttribute("data-current-top"));
+    snake.setAttribute("data-prev-left", snake.getAttribute("data-current-left"));
+    snake.setAttribute("data-current-top", x);
+    snake.setAttribute("data-current-left", y);
+
+    var totalClones = clones.length;
+
+    if(totalClones > 1) {
+        for(var i = 1; i < totalClones; i++) {
+            trackClonePath(clones[i]);
+            // console.log(clones[i]);
+        }
+    }
 }
 
-function getSnakeDirection(direction) {
-    switch(direction) {
-        case 'left':
-            console.log('left');
-            break;
-        case 'right':
-            console.log('right');
-            break;
-        case 'up':
-            console.log('up');
-            break;
-        case 'down':
-            console.log('down');
-            break;
-    }
+function trackClonePath(clone) {
+    var currentCloneId = parseInt(clone.getAttribute("id"));
+    var docElId = currentCloneId - 1;
+
+    docElId = document.getElementById(docElId + "-clone");
+
+    // console.log(docElId);
+
+    // clone.setAttribute("data-prev-top", docElId.getAttribute("data-current-top"));
+    // clone.setAttribute("data-prev-left", docElId.getAttribute("data-current-left"));
+
+    clone.setAttribute("data-current-top", docElId.getAttribute("data-prev-top"));
+    clone.setAttribute("data-current-left", docElId.getAttribute("data-prev-left"));
+
+    clone.style.top = clone.getAttribute("data-current-top") + "px";
+    clone.style.left = clone.getAttribute("data-current-left") + "px";
 }

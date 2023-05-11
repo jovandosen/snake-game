@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="snake/app.css">
+    </head>
+    <body>
+        <div id="btn-box">
+            <button onclick="addStuff();">ADD</button>
+            <button onclick="rmBoxes();">REMOVE</button>
+        </div>
+        <div id="test"></div>
+        <script>
+
+            var x = 0;
+            var y = 0;
+
+            function draw() {
+                for(var i = 1; i <= 10; i++) {
+                    for(var j = 1; j <= 10; j++) {
+                        var box = document.createElement("div");
+                        box.classList.add("box-style");
+                        box.style.top = x + "px";
+                        box.style.left = y + "px";
+                        document.getElementById("test").appendChild(box);
+                        x += 20;
+                        if(j == 10) {
+                            x = 0;
+                            y += 20;
+                        }
+                    }
+                }
+            }
+
+            function addStuff() {
+                draw();
+                fillAllBoxes();
+            }
+
+            function rmBoxes() {
+                var boxes = document.getElementsByClassName("box-style");
+                for(var i = 0; i < boxes.length; i++) {
+                    boxes[i].remove();
+                }
+            }
+
+            function fillAllBoxes() {
+                var boxes = document.getElementsByClassName("box-style");
+                // console.log(boxes);
+                for(var i = 0; i < boxes.length; i++) {
+                    boxes[i].addEventListener("click", function() {
+                        this.classList.add("box-color");
+                    });
+                    boxes[i].addEventListener("dblclick", function() {
+                        this.classList.remove("box-color");
+                    });
+                }
+            }
+
+            function draw2() {
+                var html = '';
+                for(var i = 1; i <= 10; i++) {
+                    for(var j = 1; j <= 10; j++) {
+
+                        html += "<div class='box-style eee' style='top: " + x + "px; left: " + y + "px;'></div>";
+
+                        x += 20;
+                        if(j == 10) {
+                            x = 0;
+                            y += 20;
+                        }
+                    }
+                }
+                document.getElementById("test").innerHTML = html;
+            }
+
+            function draw3() {
+                var html;
+                html = "<div class='box-style' style='top: 0px; left: 0px;'></div><div class='box-style' style='top: 0px; left: 20px;'></div>";
+                document.getElementById("test").innerHTML = html;
+            }
+
+            function draw4() {
+                var html;
+                html = "<div class='box-styleee'></div><div class='box-styleee'></div>";
+                document.getElementById("test").innerHTML = html;
+            }
+
+        </script>
+    </body>
+</html>
