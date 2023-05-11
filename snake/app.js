@@ -31,125 +31,77 @@ var snakeCloneStartingId = 0;
 var leftPos = 0;
 var topPos = 0;
 
-// Define snake intervals
-var rightInterval;
-var leftInterval;
-var downInterval;
-var upInterval;
+var moveInterval;
 
 // Define main game timer
 var mainTimerInterval;
 
-var rightArrowClicked = false;
-var leftArrowClicked = false;
-var upArrowClicked = false;
-var downArrowClicked = false;
-
 /* Check which key is pressed */
 function checkKeyPressed(e) {
-    if(e.keyCode === 32) {
-        clearAllIntervals();
-    }
     if(e.keyCode === 37) {
-        moveSnakeLeft();
+        moveSnake('left');
     }
     if(e.keyCode === 38) {
-        moveSnakeUp();
+        moveSnake('up');
     }
     if(e.keyCode === 39) {
-        moveSnakeRight();
+        moveSnake('right');
     }
     if(e.keyCode === 40) {
-        moveSnakeDown();
+        moveSnake('down');
     }
 }
 
-/* Move snake to the left */
-function moveSnakeLeft() {
-    if(leftArrowClicked) {
-        return;
-    }
+function moveSnake(position) {
+    clearInterval(moveInterval);
 
-    clearAllIntervals();
+    var t = 0;
+    var l = 0;
 
-    triggerArrowClick('left');
+    moveInterval = setInterval(function() {
 
-    leftInterval = setInterval(function() {
-        if(leftPos == 0) {
-            clearInterval(leftInterval);
-            gameOver();
-            return;
+        switch(position) {
+            case 'left':
+                if(leftPos == 0) {
+                    clearMoveInterval();
+                }
+                l = -20;
+                break;
+            case 'right':
+                if(leftPos == 980) {
+                    clearMoveInterval();
+                }
+                l = 20;
+                break;
+            case 'up':
+                if(topPos == 0) {
+                    clearMoveInterval();
+                }
+                t = -20;
+                break;
+            case 'down':
+                if(topPos == 780) {
+                    clearMoveInterval();
+                }
+                t = 20;
+                break;
         }
-        leftPos -= 20;
-        snake.style.left = leftPos + "px";
-        checkCollision('left');
-    }, 100);
-}
 
-/* Move snake to the right */
-function moveSnakeRight() {
-    if(rightArrowClicked) {
-        return;
-    }
+        topPos += t;
+        leftPos += l;
 
-    clearAllIntervals();
-
-    triggerArrowClick('right');
-
-    rightInterval = setInterval(function() {
-        if(leftPos == 980) {
-            clearInterval(rightInterval);
-            gameOver();
-            return;
-        }
-        leftPos += 20;
-        snake.style.left = leftPos + "px";
-        checkCollision('right');
-    }, 100);
-}
-
-/* Move snake up */
-function moveSnakeUp() {
-    if(upArrowClicked) {
-        return;
-    }
-
-    clearAllIntervals();
-
-    triggerArrowClick('up');
-
-    upInterval = setInterval(function() {
-        if(topPos == 0) {
-            clearInterval(upInterval);
-            gameOver();
-            return;
-        }
-        topPos -= 20;
         snake.style.top = topPos + "px";
-        checkCollision('up');
+        snake.style.left = leftPos + "px";
+
+        checkCollision();
+
     }, 100);
 }
 
-/* Move snake down */
-function moveSnakeDown() {
-    if(downArrowClicked) {
-        return;
-    }
-
-    clearAllIntervals();
-
-    triggerArrowClick('down');
-
-    downInterval = setInterval(function() {
-        if(topPos == 780) {
-            clearInterval(downInterval);
-            gameOver();
-            return;
-        }
-        topPos += 20;
-        snake.style.top = topPos + "px";
-        checkCollision('down');
-    }, 100);
+function clearMoveInterval() {
+    clearInterval(moveInterval);
+    gameOver();
+    return;
 }
 
 /* Call checkKeyPressed function on keydown */
@@ -206,35 +158,6 @@ function gameMainTimer(totalSeconds) {
 
 gameMainTimer(3000);
 
-function clearAllIntervals() {
-    clearInterval(leftInterval);
-    clearInterval(rightInterval);
-    clearInterval(downInterval);
-    clearInterval(upInterval);
-}
-
-function triggerArrowClick(position) {
-    leftArrowClicked = false;
-    rightArrowClicked = false;
-    downArrowClicked = false;
-    upArrowClicked = false;
-
-    switch(position) {
-        case 'left':
-            leftArrowClicked = true;
-            break;
-        case 'right':
-            rightArrowClicked = true;
-            break;
-        case 'up':
-            upArrowClicked = true;
-            break;
-        case 'down':
-            downArrowClicked = true;
-            break;
-    }
-}
-
 /* create a function to get a random number between two numbers */
 function numberInRange(max, min) {
     var x = Math.floor(Math.random() * (max - min + 1) + min);
@@ -276,11 +199,9 @@ function createClone() {
     snakeContainer.appendChild(clone);
 
     clones.push(clone);
-
-    // clearAllIntervals();
 }
 
-function checkCollision(direction) {
+function checkCollision() {
     var snakeLeftVal = parseInt(snake.style.left);
     var snakeTopVal = parseInt(snake.style.top);
     var snakeFoodLeftVal = parseInt(snakeFood.style.left);
