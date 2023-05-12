@@ -10,14 +10,9 @@ snake.setAttribute("id", "0-clone");
 
 snake.classList.add("snake-skin");
 
-snake.setAttribute('data-prev-top', 0);
-snake.setAttribute('data-prev-left', 0);
-snake.setAttribute('data-current-top', 0);
-snake.setAttribute('data-current-left', 0);
-
 snakeContainer.appendChild(snake);
 
-clones.push(snake);
+// clones.push(snake);
 
 var snakeFood;
 
@@ -36,8 +31,13 @@ var moveInterval;
 // Define main game timer
 var mainTimerInterval;
 
+var snakePath = [];
+
 /* Check which key is pressed */
 function checkKeyPressed(e) {
+    if(e.keyCode === 32) {
+        clearInterval(moveInterval);
+    }
     if(e.keyCode === 37) {
         moveSnake('left');
     }
@@ -194,11 +194,14 @@ function createClone() {
 
     clone.classList.add("snake-clone");
 
-    trackClonePath(clone);
+    clone.style.top = snakePath[snakePath.length - (snakeCloneStartingId + 1)].top + "px";
+    clone.style.left = snakePath[snakePath.length - (snakeCloneStartingId + 1)].left + "px";
 
     snakeContainer.appendChild(clone);
 
     clones.push(clone);
+
+    // clearInterval(moveInterval);
 }
 
 function checkCollision() {
@@ -218,7 +221,6 @@ function checkCollision() {
         updateTotalPoints();
         createFood();
         createClone();
-        // console.log(clones);
     }
 }
 
@@ -229,35 +231,17 @@ function updateTotalPoints() {
 }
 
 function trackSnakePath(x, y) {
-    snake.setAttribute("data-prev-top", snake.getAttribute("data-current-top"));
-    snake.setAttribute("data-prev-left", snake.getAttribute("data-current-left"));
-    snake.setAttribute("data-current-top", x);
-    snake.setAttribute("data-current-left", y);
+    snakePath.push({top: x, left: y});
 
     var totalClones = clones.length;
 
-    if(totalClones > 1) {
-        for(var i = 1; i < totalClones; i++) {
-            trackClonePath(clones[i]);
-            // console.log(clones[i]);
+    // console.log(snakePath);
+
+    if(totalClones > 0) {
+        for(var i = 0; i < totalClones; i++) {
+            var z = parseInt(clones[i].getAttribute("id"));
+            clones[i].style.top = snakePath[snakePath.length - 1 - z].top + "px";
+            clones[i].style.left = snakePath[snakePath.length - 1 - z].left + "px";
         }
     }
-}
-
-function trackClonePath(clone) {
-    var currentCloneId = parseInt(clone.getAttribute("id"));
-    var docElId = currentCloneId - 1;
-
-    docElId = document.getElementById(docElId + "-clone");
-
-    // console.log(docElId);
-
-    // clone.setAttribute("data-prev-top", docElId.getAttribute("data-current-top"));
-    // clone.setAttribute("data-prev-left", docElId.getAttribute("data-current-left"));
-
-    clone.setAttribute("data-current-top", docElId.getAttribute("data-prev-top"));
-    clone.setAttribute("data-current-left", docElId.getAttribute("data-prev-left"));
-
-    clone.style.top = clone.getAttribute("data-current-top") + "px";
-    clone.style.left = clone.getAttribute("data-current-left") + "px";
 }
