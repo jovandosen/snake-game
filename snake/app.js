@@ -12,8 +12,6 @@ snake.classList.add("snake-skin");
 
 snakeContainer.appendChild(snake);
 
-// clones.push(snake);
-
 var snakeFood;
 
 /* Game total points */
@@ -32,6 +30,8 @@ var moveInterval;
 var mainTimerInterval;
 
 var snakePath = [];
+
+var currentPos = '';
 
 /* Check which key is pressed */
 function checkKeyPressed(e) {
@@ -53,6 +53,28 @@ function checkKeyPressed(e) {
 }
 
 function moveSnake(position) {
+    if(position == currentPos) {
+        return;
+    }
+
+    var totalClones = clones.length;
+
+    if(totalClones > 0 && currentPos == 'right' && position == 'left') {
+        return;
+    }
+
+    if(totalClones > 0 && currentPos == 'left' && position == 'right') {
+        return;
+    }
+
+    if(totalClones > 0 && currentPos == 'up' && position == 'down') {
+        return;
+    }
+
+    if(totalClones > 0 && currentPos == 'down' && position == 'up') {
+        return;
+    }
+
     clearInterval(moveInterval);
 
     var t = 0;
@@ -62,24 +84,28 @@ function moveSnake(position) {
 
         switch(position) {
             case 'left':
+                currentPos = 'left';
                 if(leftPos == 0) {
                     clearMoveInterval();
                 }
                 l = -20;
                 break;
             case 'right':
+                currentPos = 'right';
                 if(leftPos == 980) {
                     clearMoveInterval();
                 }
                 l = 20;
                 break;
             case 'up':
+                currentPos = 'up';
                 if(topPos == 0) {
                     clearMoveInterval();
                 }
                 t = -20;
                 break;
             case 'down':
+                currentPos = 'down';
                 if(topPos == 780) {
                     clearMoveInterval();
                 }
@@ -156,7 +182,7 @@ function gameMainTimer(totalSeconds) {
     }, 1000);
 }
 
-gameMainTimer(3000);
+gameMainTimer(300);
 
 /* create a function to get a random number between two numbers */
 function numberInRange(max, min) {
@@ -200,8 +226,6 @@ function createClone() {
     snakeContainer.appendChild(clone);
 
     clones.push(clone);
-
-    // clearInterval(moveInterval);
 }
 
 function checkCollision() {
@@ -234,8 +258,6 @@ function trackSnakePath(x, y) {
     snakePath.push({top: x, left: y});
 
     var totalClones = clones.length;
-
-    // console.log(snakePath);
 
     if(totalClones > 0) {
         for(var i = 0; i < totalClones; i++) {
