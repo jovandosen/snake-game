@@ -246,6 +246,18 @@ function checkCollision() {
         createFood();
         createClone();
     }
+
+    var totalClones = clones.length;
+
+    if(totalClones > 0) {
+        for(var i = 0; i < totalClones; i++) {
+            var t = parseInt(clones[i].style.top);
+            var l = parseInt(clones[i].style.left);
+            if(snakeTopVal === t && snakeLeftVal === l) {
+                clearMoveInterval();
+            }
+        }
+    }
 }
 
 /* Update total points */
