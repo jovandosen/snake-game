@@ -245,6 +245,7 @@ function checkCollision() {
         updateTotalPoints();
         createFood();
         createClone();
+        playEatingSound();
     }
 
     var totalClones = clones.length;
@@ -278,4 +279,9 @@ function trackSnakePath(x, y) {
             clones[i].style.left = snakePath[snakePath.length - 1 - z].left + "px";
         }
     }
+}
+
+function playEatingSound() {
+    var audio = new Audio('sounds/eat.mp3');
+    audio.play();
 }
