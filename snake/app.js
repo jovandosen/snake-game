@@ -214,10 +214,15 @@ function createFood() {
     var foodTopPos = numberInRange((playgroundHeight - 20), 0);
     var foodLeftPost = numberInRange((playgroundWidth - 20), 0);
 
-    snakeFood.style.top = foodTopPos + "px";
-    snakeFood.style.left = foodLeftPost + "px";
+    var result = checkOverlap(foodTopPos, foodLeftPost);
 
-    snakeContainer.appendChild(snakeFood);
+    if(result) {
+        createFood();
+    } else {
+        snakeFood.style.top = foodTopPos + "px";
+        snakeFood.style.left = foodLeftPost + "px";
+        snakeContainer.appendChild(snakeFood);
+    }
 }
 
 createFood();
@@ -256,8 +261,8 @@ function checkCollision() {
     if((snakeLeftVal === snakeFoodLeftVal && snakeTopVal === snakeFoodTopVal)) {
         snakeFood.remove();
         updateTotalPoints();
-        createFood();
         createClone();
+        createFood();
         playEatingSound();
     }
 
@@ -311,4 +316,20 @@ function checkGameSettings() {
 
 function setPlaygroundSize() {
     window.location.href = "game.html";
+}
+
+function checkOverlap(x, y) {
+    var overlap = false;
+
+    var totalClones = clones.length;
+
+    if(totalClones > 0) {
+        for(var i = 0; i < totalClones; i++) {
+            if(parseInt(clones[i].style.top) === x && parseInt(clones[i].style.left) === y) {
+                overlap = true;
+            }
+        }
+    }
+
+    return overlap;
 }
