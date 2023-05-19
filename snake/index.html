@@ -4,13 +4,14 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <title>Snake game</title>
         <link rel="stylesheet" href="app.css">
     </head>
     <body>
         <div id="snake-game-score-container">
             <div id="game-main-timer"></div>
             <div id="game-total-score">Total: <span id="game-total-points">0</span></div>
+            <div onclick="setPlaygroundSize();" id="choose-another-playground-size">Choose another playground size</div>
             <!-- <div id="developer-tools-container">
                 <label for="dev-tools">Developer Tools</label>
                 <input type="checkbox" name="developerTools" id="dev-tools" onclick="toggleDevTools(this);">

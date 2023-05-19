@@ -1,7 +1,20 @@
+var playgroundWidth;
+var playgroundHeight;
+var snakeGameTimer;
+
+checkGameSettings();
+
 var clones = [];
 
 // snake game main container
 var snakeContainer = document.getElementById("snake-game-main-container");
+
+snakeContainer.style.width = playgroundWidth + "px";
+snakeContainer.style.height = playgroundHeight + "px";
+
+var snakeGameScoreContainer = document.getElementById("snake-game-score-container");
+
+snakeGameScoreContainer.style.width = playgroundWidth + "px";
 
 // create snake and append to DOM
 var snake = document.createElement("div");
@@ -92,7 +105,7 @@ function moveSnake(position) {
                 break;
             case 'right':
                 currentPos = 'right';
-                if(leftPos == 980) {
+                if(leftPos == (playgroundWidth - 20)) {
                     clearMoveInterval();
                 }
                 l = 20;
@@ -106,7 +119,7 @@ function moveSnake(position) {
                 break;
             case 'down':
                 currentPos = 'down';
-                if(topPos == 780) {
+                if(topPos == (playgroundHeight - 20)) {
                     clearMoveInterval();
                 }
                 t = 20;
@@ -182,7 +195,7 @@ function gameMainTimer(totalSeconds) {
     }, 1000);
 }
 
-gameMainTimer(300);
+gameMainTimer(snakeGameTimer);
 
 /* create a function to get a random number between two numbers */
 function numberInRange(max, min) {
@@ -198,8 +211,8 @@ function createFood() {
 
     snakeFood.classList.add("food");
 
-    var foodTopPos = numberInRange(780, 0);
-    var foodLeftPost = numberInRange(980, 0);
+    var foodTopPos = numberInRange((playgroundHeight - 20), 0);
+    var foodLeftPost = numberInRange((playgroundWidth - 20), 0);
 
     snakeFood.style.top = foodTopPos + "px";
     snakeFood.style.left = foodLeftPost + "px";
@@ -284,4 +297,18 @@ function trackSnakePath(x, y) {
 function playEatingSound() {
     var audio = new Audio('sounds/eat.mp3');
     audio.play();
+}
+
+function checkGameSettings() {
+    playgroundWidth = localStorage.getItem("playgroundWidth");
+    playgroundHeight = localStorage.getItem("playgroundHeight");
+    snakeGameTimer = localStorage.getItem("snakeGameTimer");
+
+    if(playgroundWidth == null || playgroundHeight == null || snakeGameTimer == null) {
+        setPlaygroundSize();
+    }
+}
+
+function setPlaygroundSize() {
+    window.location.href = "game.html";
 }

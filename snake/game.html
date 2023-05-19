@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Snake game settings</title>
+        <link rel="stylesheet" href="app.css">
+    </head>
+    <body>
+        <div id="snake-game-settings-header">
+            <h1>Choose playground size</h1>
+        </div>
+        <div id="snake-game-settings-container">
+            <div onclick="playgroundSize(1)" class="playground-size">
+                <p>Width: 600px</p>
+                <p>Height: 400px</p>
+                <p>Timer: 5 min</p>
+            </div>
+            <div onclick="playgroundSize(2)" class="playground-size">
+                <p>Width: 800px</p>
+                <p>Height: 600px</p>
+                <p>Timer: 10 min</p>
+            </div>
+            <div onclick="playgroundSize(3)" class="playground-size">
+                <p>Width: 1000px</p>
+                <p>Height: 800px</p>
+                <p>Timer: 15 min</p>    
+            </div>
+        </div>
+        <script src="settings.js"></script>
+    </body>
+</html>

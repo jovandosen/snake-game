@@ -5,12 +5,12 @@
 }
 
 #snake-game-main-container, #snake-game-score-container {
-    width: 1000px;
+    /* width: 1000px; */
     border: 1px solid black;
 }
 
 #snake-game-main-container {
-    height: 800px;
+    /* height: 800px; */
     margin: 20px auto;
     position: relative;
 }
@@ -37,6 +37,32 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+#snake-game-settings-container, #snake-game-settings-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#snake-game-settings-container div {
+    width: 200px;
+    height: 200px;
+    border: 1px solid black;
+    margin: 10px;
+}
+
+#snake-game-settings-container div:hover {
+    background-color: lightblue;
+}
+
+#choose-another-playground-size {
+    font-size: 14px;
+}
+
+#snake-game-settings-container div:hover, #choose-another-playground-size:hover {
+    cursor: pointer;
 }
 
 #game-over-container {
@@ -97,4 +123,11 @@
     margin: 50px auto;
     position: relative;
     width: 100px;
+}
+
+.playground-size {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
